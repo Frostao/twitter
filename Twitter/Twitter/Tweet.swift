@@ -13,8 +13,13 @@ class Tweet: NSObject {
     var text: String?
     var createdAtString: String?
     var createAt: NSDate?
+    var likeCount: NSNumber?
+    var repostCount: NSNumber?
     
     init(dictionary: NSDictionary) {
+        
+        likeCount = dictionary["favorite_count"] as? NSNumber
+        repostCount = dictionary["retweet_count"] as? NSNumber
         user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String

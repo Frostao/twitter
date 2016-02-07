@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if User.currentUser != nil {
             //show the login screen
-            let timeline = storyboard.instantiateViewControllerWithIdentifier("timeline") as! TimelineViewController
+            let timeline = storyboard.instantiateViewControllerWithIdentifier("timeline")
             window?.rootViewController = timeline
         }
         
