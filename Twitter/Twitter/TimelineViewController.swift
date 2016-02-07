@@ -10,9 +10,17 @@ import UIKit
 
 class TimelineViewController: UIViewController {
 
+    
+    var tweets: [Tweet]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        TwitterClient.sharedInstance.timeLineWithCompletion(nil) { (tweets, error) -> Void in
+            self.tweets = tweets
+        }
+        
+        
         // Do any additional setup after loading the view.
     }
 

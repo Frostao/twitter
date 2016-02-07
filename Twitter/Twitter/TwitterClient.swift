@@ -27,6 +27,22 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     
+    func timeLineWithCompletion(parameters: NSDictionary? ,completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
+        
+        
+        GET("1.1/statuses/home_timeline.json", parameters: parameters, progress: { (progress: NSProgress) -> Void in
+            
+            }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                //print(response)
+                let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweets: tweets, error: nil)
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error)
+                completion(tweets: nil, error: error)
+        })
+    }
+    
+    
     func loginWithCompletion(completion: (user: User?, error: NSError?) -> Void) {
         loginCompletion = completion
         
@@ -56,13 +72,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             
             
             TwitterClient.sharedInstance.requestSerializer.saveAccessToken(accessToken)
-            TwitterClient.sharedInstance.GET("1.1/statuses/home_timeline.json", parameters: nil, progress: { (progress: NSProgress) -> Void in
-                
-                }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
-                    //print(response)
-                }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
-                    print(error)
-            })
+            
             
             
             TwitterClient.sharedInstance.GET("1.1/account/verify_credentials.json", parameters: nil, progress: { (progress: NSProgress) -> Void in
