@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVPullToRefresh
 
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -17,6 +18,26 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: .ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+        
+        tableView.addInfiniteScrollingWithActionHandler { () -> Void in
+            let lastTweet = self.tweets![self.tweets!.count-1]
+            let lastID = lastTweet.id
+            let parameters:NSDictionary = ["max_id": lastID!]
+            TwitterClient.sharedInstance.timeLineWithCompletion(parameters, completion: { (tweets, error) -> Void in
+                for tweet in tweets! {
+                    self.tweets?.append(tweet)
+                }
+                self.tableView.reloadData()
+                self.tableView.infiniteScrollingView.stopAnimating()
+            })
+            
+            
+            
+        }
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         TwitterClient.sharedInstance.timeLineWithCompletion(nil) { (tweets, error) -> Void in
@@ -26,6 +47,15 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         
         
         // Do any additional setup after loading the view.
+    }
+    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        TwitterClient.sharedInstance.timeLineWithCompletion(nil) { (tweets, error) -> Void in
+            self.tweets = tweets
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,17 +76,35 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         if let tweets = tweets {
             let tweet = tweets[indexPath.row]
             let user = tweet.user
+            cell.tweet = tweet
+            if tweet.liked! {
+                cell.likeButton.setBackgroundImage(UIImage(named: "like-action-pressed"), forState: .Normal)
+            }
+            
+            if tweet.retweeted! {
+                cell.retweetButton.setBackgroundImage(UIImage(named: "retweet-action-pressed"), forState: .Normal)
+            }
+
             cell.name.text = user?.name
             cell.username.text = "@\(user!.screenName!)"
             cell.profileImage.setImageWithURL(NSURL(string: user!.profileImageUrl!)!)
             cell.content.text = tweet.text
             let time = Int((tweet.createAt?.timeIntervalSinceNow)!)
-            let hours = time / 3600
+            let hours = -time / 3600
             
             cell.time.text = "\(hours)h"
             
-            cell.repostCount.text = tweet.repostCount?.description
-            cell.likeCount.text = tweet.likeCount?.description
+            if tweet.repostCount == 0 {
+                cell.repostCount.text = ""
+            } else {
+                cell.repostCount.text = tweet.repostCount?.description
+            }
+            if tweet.likeCount == 0 {
+                cell.likeCount.text = ""
+            } else {
+                cell.likeCount.text = tweet.likeCount?.description
+            }
+
             
         }
         return cell

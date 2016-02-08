@@ -65,6 +65,62 @@ class TwitterClient: BDBOAuth1SessionManager {
         
     }
     
+    func retweet(withID id:NSNumber, complete: (response: NSDictionary?, error: NSError?) -> Void) {
+        let parameter: NSDictionary = ["id": id]
+        POST("1.1/statuses/retweet/\(id).json", parameters: parameter, progress: { (progress) -> Void in
+            
+            }, success: { (task, response) -> Void in
+                complete(response: response as? NSDictionary, error: nil)
+            }) { (task, error) -> Void in
+                complete(response: nil, error: error)
+                print("retweet")
+                
+        }
+    }
+    
+    
+    func unretweet(withID id:NSNumber, complete: (response: NSDictionary?, error: NSError?) -> Void) {
+        let parameter: NSDictionary = ["id": id]
+        POST("1.1/statuses/unretweet/\(id).json", parameters: parameter, progress: { (progress) -> Void in
+            
+            }, success: { (task, response) -> Void in
+                complete(response: response as? NSDictionary, error: nil)
+            }) { (task, error) -> Void in
+                complete(response: nil, error: error)
+                print("retweet")
+                
+        }
+    }
+    
+    func like(withID id:NSNumber, complete: (response: NSDictionary?, error: NSError?) -> Void) {
+        let parameter: NSDictionary = ["id": id]
+        POST("1.1/favorites/create.json", parameters: parameter, progress: { (progress) -> Void in
+            
+            }, success: { (task, response) -> Void in
+                complete(response: response as? NSDictionary, error: nil)
+            }) { (task, error) -> Void in
+                complete(response: nil, error: error)
+                print("retweet")
+                
+        }
+    }
+    
+    
+    func unlike(withID id:NSNumber, complete: (response: NSDictionary?, error: NSError?) -> Void) {
+        let parameter: NSDictionary = ["id": id]
+        POST("1.1/favorites/destroy.json", parameters: parameter, progress: { (progress) -> Void in
+            
+            }, success: { (task, response) -> Void in
+                complete(response: response as? NSDictionary, error: nil)
+            }) { (task, error) -> Void in
+                complete(response: nil, error: error)
+                print("retweet")
+                
+        }
+    }
+    
+    
+    
     
     func openURL(withurl url: NSURL) {
         fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential(queryString: url.query), success: { (accessToken) -> Void in

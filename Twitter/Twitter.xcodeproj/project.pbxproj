@@ -18,7 +18,7 @@
 		8452E3F51C66F9640035624F /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452E3F41C66F9640035624F /* Tweet.swift */; };
 		8452E3F71C6708E50035624F /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452E3F61C6708E50035624F /* TimelineViewController.swift */; };
 		84A2B2861C6712AD00EA5D8F /* TweetsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A2B2851C6712AD00EA5D8F /* TweetsCell.swift */; };
-		BDD9D0386309CEC8CE856051 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B97AF8A1FA3EF6C33FB1D72C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		BDD9D0386309CEC8CE856051 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B97AF8A1FA3EF6C33FB1D72C /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +196,7 @@
 				TargetAttributes = {
 					8452E3C71C63FD8D0035624F = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = Z5YL3FV4TV;
 					};
 					8452E3DB1C63FD8D0035624F = {
 						CreatedOnToolsVersion = 7.2;
@@ -431,6 +432,7 @@
 			baseConfigurationReference = B67D73F88FE18547FD8A304E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Twitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -444,6 +446,7 @@
 			baseConfigurationReference = 7BAC26CC0FBAAEAF28213978 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Twitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
