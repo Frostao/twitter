@@ -20,6 +20,9 @@ The following **optional** features are implemented:
 - [X] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [X] User can pull to refresh.
 
+The following **additional** features are implemented:
+- [X] User does not need to leave the application in order to login, instead, the user can login within the app through a webview.
+
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
