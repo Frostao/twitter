@@ -23,13 +23,28 @@ class ViewController: UIViewController {
     }
     @IBAction func loginClicked(sender: AnyObject) {
         
-        TwitterClient.sharedInstance.loginWithCompletion { (user, error) -> Void in
+        
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = UIColor.whiteColor()
+        let webview = UIWebView(frame: CGRect(x: 0, y: 20, width: viewController.view.frame.width, height: viewController.view.frame.height-20))
+        viewController.view.addSubview(webview)
+        self.presentViewController(viewController, animated: true,completion: nil)
+        
+        TwitterClient.sharedInstance.loginWithWebview(webview) { (user, error) -> Void in
+            viewController.dismissViewControllerAnimated(true, completion: nil)
             if user != nil {
                 self.performSegueWithIdentifier("showTimeLine", sender: nil)
-            } else {
-                
             }
         }
+        
+        
+//        TwitterClient.sharedInstance.loginWithCompletion { (user, error) -> Void in
+//            if user != nil {
+//                self.performSegueWithIdentifier("showTimeLine", sender: nil)
+//            } else {
+//                
+//            }
+//        }
         
         
     }

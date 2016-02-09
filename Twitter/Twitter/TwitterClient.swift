@@ -42,6 +42,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func loginWithWebview(webview: UIWebView ,completion: (user: User?, error: NSError?) -> Void) {
+        loginCompletion = completion
+        TwitterClient.sharedInstance.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string: "t4c://oauth"), scope: nil, success: { (requestToken) -> Void in
+            
+            let authURL = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")
+            
+            webview.loadRequest(NSURLRequest(URL: authURL!))
+            
+            }) { (error) -> Void in
+                self.loginCompletion?(user: nil, error: error)
+                
+        }
+    }
+    
+    
     
     func loginWithCompletion(completion: (user: User?, error: NSError?) -> Void) {
         loginCompletion = completion
@@ -60,9 +75,6 @@ class TwitterClient: BDBOAuth1SessionManager {
                 self.loginCompletion?(user: nil, error: error)
                 
         }
-        
-        
-        
     }
     
     func retweet(withID id:NSNumber, complete: (response: NSDictionary?, error: NSError?) -> Void) {
