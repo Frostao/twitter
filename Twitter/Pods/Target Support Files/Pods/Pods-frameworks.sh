@@ -86,10 +86,18 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/BDBOAuth1Manager.framework"
+  install_framework "Pods/DACircularProgress.framework"
+  install_framework "Pods/IDMPhotoBrowser.framework"
+  install_framework "Pods/SDWebImage.framework"
   install_framework "Pods/SVPullToRefresh.framework"
+  install_framework "Pods/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/BDBOAuth1Manager.framework"
+  install_framework "Pods/DACircularProgress.framework"
+  install_framework "Pods/IDMPhotoBrowser.framework"
+  install_framework "Pods/SDWebImage.framework"
   install_framework "Pods/SVPullToRefresh.framework"
+  install_framework "Pods/pop.framework"
 fi

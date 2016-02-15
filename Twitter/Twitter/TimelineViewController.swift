@@ -18,6 +18,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "newTweetPosted:", name: "newTweetPosted", object: nil)
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: .ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
@@ -27,8 +29,12 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             let lastID = lastTweet.id
             let parameters:NSDictionary = ["max_id": lastID!]
             TwitterClient.sharedInstance.timeLineWithCompletion(parameters, completion: { (tweets, error) -> Void in
+                var index = 0
                 for tweet in tweets! {
-                    self.tweets?.append(tweet)
+                    if index != 0 {
+                        self.tweets?.append(tweet)
+                    }
+                    index = index + 1
                 }
                 self.tableView.reloadData()
                 self.tableView.infiniteScrollingView.stopAnimating()
@@ -88,6 +94,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.name.text = user?.name
             cell.username.text = "@\(user!.screenName!)"
             cell.profileImage.setImageWithURL(NSURL(string: user!.profileImageUrl!)!)
+            cell.viewController = self
             cell.content.text = tweet.text
             let time = Int((tweet.createAt?.timeIntervalSinceNow)!)
             let hours = -time / 3600
@@ -110,6 +117,24 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("showDetail", sender: tweets![indexPath.row])
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        super.prepareForSegue(segue, sender: sender)
+        if segue.identifier == "showDetail" {
+            let destViewController = segue.destinationViewController as! TweetDetailViewController
+            destViewController.tweet = sender as? Tweet
+        } 
+        
+    }
+    
+    func newTweetPosted(notification: NSNotification) {
+        let tweet = notification.userInfo!["tweet"] as! Tweet
+        tweets?.insert(tweet, atIndex: 0)
+        tableView.reloadData()
+    }
     
     
     @IBAction func didClickLogout(sender: AnyObject) {

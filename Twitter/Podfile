@@ -2,5 +2,6 @@ platform :ios, "9.0"
 use_frameworks!
 
 pod 'AFNetworking'
+pod 'IDMPhotoBrowser'
 pod 'BDBOAuth1Manager'
 pod 'SVPullToRefresh'

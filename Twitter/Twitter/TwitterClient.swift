@@ -42,6 +42,22 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    
+    func userTimeLineWithCompletion(parameters: NSDictionary? ,completion: (tweets: [Tweet]?, error: NSError?) -> Void) {
+        
+        
+        GET("1.1/statuses/user_timeline.json", parameters: parameters, progress: { (progress: NSProgress) -> Void in
+            
+            }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                //print(response)
+                let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweets: tweets, error: nil)
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error)
+                completion(tweets: nil, error: error)
+        })
+    }
+    
     func loginWithWebview(webview: UIWebView ,completion: (user: User?, error: NSError?) -> Void) {
         loginCompletion = completion
         TwitterClient.sharedInstance.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string: "t4c://oauth"), scope: nil, success: { (requestToken) -> Void in
@@ -131,6 +147,18 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func postTweet(parameters:NSDictionary, complete: (response: NSDictionary?, error: NSError?) -> Void) {
+        POST("1.1/statuses/update.json", parameters: parameters, progress: { (progress) -> Void in
+            
+            }, success: { (task, response) -> Void in
+                complete(response: response as? NSDictionary, error: nil)
+            }) { (task, error) -> Void in
+                complete(response: nil, error: error)
+                print("posted")
+                
+        }
+    }
+    
     
     
     
@@ -147,6 +175,7 @@ class TwitterClient: BDBOAuth1SessionManager {
                 
                 }, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
                     let user = User(dictionary: response as! NSDictionary)
+                    print(response)
                     User.currentUser = user
                     
                     self.loginCompletion?(user: user, error: nil)

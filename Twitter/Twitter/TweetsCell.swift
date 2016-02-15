@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IDMPhotoBrowser
 
 class TweetsCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
@@ -22,13 +23,26 @@ class TweetsCell: UITableViewCell {
     
     
     var tweet: Tweet?
+    var viewController: UIViewController?
     
+    override func awakeFromNib() {
+        loadGestureRecognizer()
+    }
+    func loadGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: "profileTapped")
+        profileImage.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    func profileTapped() {
+        
+        let photoURL = tweet?.user?.profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
+        let photo = IDMPhoto(URL: NSURL(string: photoURL!))
+        let browser = IDMPhotoBrowser(photos: [photo], animatedFromView: nil)
+        browser.displayDoneButton = false
+        viewController?.presentViewController(browser, animated: true, completion: nil)
+    }
     
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
     @IBAction func replyTapped(sender: AnyObject) {
     }
     @IBAction func retweetTapped(sender: AnyObject) {
@@ -72,10 +86,6 @@ class TweetsCell: UITableViewCell {
         }
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
 
 }

@@ -20,7 +20,7 @@ class Tweet: NSObject {
     var liked: Bool?
     
     init(dictionary: NSDictionary) {
-        //print(dictionary)
+        
         likeCount = dictionary["favorite_count"] as? NSNumber
         let retweeted_status = dictionary["retweeted_status"]
         if let retweeted_status = retweeted_status as? NSDictionary {
