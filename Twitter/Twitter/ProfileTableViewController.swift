@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import IDMPhotoBrowser
 
 class ProfileTableViewController: UITableViewController {
     var tweets: [Tweet]?
-    
-    @IBAction func newTweetClicked(sender: AnyObject) {
-    }
+    var screenName: String?
+    var user:User?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let refreshControl = UIRefreshControl()
@@ -22,7 +23,7 @@ class ProfileTableViewController: UITableViewController {
         tableView.addInfiniteScrollingWithActionHandler { () -> Void in
             let lastTweet = self.tweets![self.tweets!.count-1]
             let lastID = lastTweet.id
-            let parameters:NSDictionary = ["max_id": lastID!, "screen_name": User.currentUser!.screenName!]
+            let parameters:NSDictionary = ["max_id": lastID!, "screen_name": self.screenName!]
             TwitterClient.sharedInstance.userTimeLineWithCompletion(parameters, completion: { (tweets, error) -> Void in
                 var index = 0
                 for tweet in tweets! {
@@ -41,7 +42,12 @@ class ProfileTableViewController: UITableViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
-        let parameter: NSDictionary = ["screen_name": User.currentUser!.screenName!]
+        
+        if user == nil {
+            user = User.currentUser
+        }
+        screenName = user?.screenName
+        let parameter: NSDictionary = ["screen_name": screenName!]
         TwitterClient.sharedInstance.userTimeLineWithCompletion(parameter) { (tweets, error) -> Void in
             self.tweets = tweets
             self.tableView.reloadData()
@@ -53,7 +59,7 @@ class ProfileTableViewController: UITableViewController {
 
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        let parameter: NSDictionary = ["screen_name": User.currentUser!.screenName!]
+        let parameter: NSDictionary = ["screen_name": screenName!]
         TwitterClient.sharedInstance.userTimeLineWithCompletion(parameter) { (tweets, error) -> Void in
             self.tweets = tweets
             self.tableView.reloadData()
@@ -86,17 +92,31 @@ class ProfileTableViewController: UITableViewController {
         }
     }
 
+    func profileTapped(recognizer: UIGestureRecognizer) {
+        
+        let photoURL = user?.profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
+        let photo = IDMPhoto(URL: NSURL(string: photoURL!))
+        let browser = IDMPhotoBrowser(photos: [photo], animatedFromView: nil)
+        browser.displayDoneButton = false
+        self.presentViewController(browser, animated: true, completion: nil)
+    }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("profile", forIndexPath: indexPath) as! ProfileTableViewCell
-            cell.name.text = User.currentUser?.name
-            cell.username.text = "@" + (User.currentUser?.screenName)!
-            cell.content.text = User.currentUser?.tagline
-            cell.followerCount.text = (User.currentUser?.followerCount?.description)! + " FOLLOWERS"
-            cell.followingCount.text = (User.currentUser?.followingCount?.description)! + " FOLLOWING"
-            cell.profileImage.setImageWithURL(NSURL(string: (User.currentUser?.profileImageUrl)!))
+            cell.name.text = user!.name
+            cell.username.text = "@" + (user!.screenName)!
+            cell.content.text = user!.tagline
+            cell.followerCount.text = (user!.followerCount?.description)! + " FOLLOWERS"
+            cell.followingCount.text = (user!.followingCount?.description)! + " FOLLOWING"
+            cell.profileImage.setImageWithURL(NSURL(string: (user!.profileImageUrl)!))
+            
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: "profileTapped:")
+            cell.profileImage.addGestureRecognizer(gestureRecognizer)
+            
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TweetsCell

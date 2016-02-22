@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import IDMPhotoBrowser
+
 
 class TweetsCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
@@ -35,11 +35,8 @@ class TweetsCell: UITableViewCell {
     
     func profileTapped() {
         
-        let photoURL = tweet?.user?.profileImageUrl?.stringByReplacingOccurrencesOfString("_normal", withString: "")
-        let photo = IDMPhoto(URL: NSURL(string: photoURL!))
-        let browser = IDMPhotoBrowser(photos: [photo], animatedFromView: nil)
-        browser.displayDoneButton = false
-        viewController?.presentViewController(browser, animated: true, completion: nil)
+
+        viewController?.performSegueWithIdentifier("showProfile", sender: tweet?.user)
     }
     
 

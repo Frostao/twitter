@@ -14,7 +14,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var textInput: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        textCount.text = ""
+        textCount.text = "0"
         textInput.contentInset = UIEdgeInsets(top: -60, left: 0, bottom: 0, right: 0)
         
         

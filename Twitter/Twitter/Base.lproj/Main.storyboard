@@ -247,6 +247,7 @@
                     <connections>
                         <outlet property="tableView" destination="uVF-4Z-yYD" id="oYz-yF-KhA"/>
                         <segue destination="z0l-S2-PG6" kind="show" identifier="showDetail" id="kIM-qb-TPK"/>
+                        <segue destination="5pY-qd-ZgP" kind="show" identifier="showProfile" id="9Vd-UR-s6Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiE-fJ-dTH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -265,7 +266,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="hi" translatesAutoresizingMaskIntoConstraints="NO" id="add-yj-rrw">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="add-yj-rrw">
                                 <rect key="frame" x="0.0" y="64" width="600" height="210"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -282,8 +283,8 @@
                                     <outlet property="delegate" destination="vZs-yO-iMZ" id="t4j-KY-Xdi"/>
                                 </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3o-Es-wUQ">
-                                <rect key="frame" x="528" y="284" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b3o-Es-wUQ">
+                                <rect key="frame" x="559" y="284" width="11" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -560,6 +561,7 @@
                                         <constraint firstItem="dfP-Us-cvB" firstAttribute="top" secondItem="cdB-Fy-EJ6" secondAttribute="bottom" constant="5" id="BF1-JC-85E"/>
                                         <constraint firstItem="Hre-nA-AbT" firstAttribute="top" secondItem="mhH-Bb-hzO" secondAttribute="bottom" constant="10" id="BUP-rd-eYX"/>
                                         <constraint firstItem="rXR-Hj-6Cn" firstAttribute="baseline" secondItem="dbK-GL-sYD" secondAttribute="baseline" id="Ehc-h7-tLp"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="dfP-Us-cvB" secondAttribute="trailing" constant="5" id="Kjg-LC-ooC"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="dbK-GL-sYD" secondAttribute="bottom" constant="16" id="SEs-ds-w3l"/>
                                         <constraint firstItem="Hre-nA-AbT" firstAttribute="leading" secondItem="cdB-Fy-EJ6" secondAttribute="leading" id="T0y-8d-7mR"/>
                                         <constraint firstItem="mhH-Bb-hzO" firstAttribute="leading" secondItem="gwF-6O-fhS" secondAttribute="leadingMargin" id="XX3-Kg-zGz"/>
@@ -720,14 +722,14 @@
                                             <exclude reference="jUm-EC-GMq"/>
                                             <exclude reference="0Nf-3t-TKS"/>
                                             <exclude reference="IAg-qt-bO5"/>
-                                            <exclude reference="om6-Q9-SXg"/>
                                             <exclude reference="NQs-X6-ofe"/>
-                                            <exclude reference="mic-kr-Kt7"/>
+                                            <exclude reference="om6-Q9-SXg"/>
                                             <exclude reference="1bs-F2-vSq"/>
+                                            <exclude reference="mic-kr-Kt7"/>
                                             <exclude reference="jzK-Cs-f5f"/>
+                                            <exclude reference="H8H-Vm-wsA"/>
                                             <exclude reference="u7r-jZ-yAC"/>
                                             <exclude reference="voy-P3-CvV"/>
-                                            <exclude reference="H8H-Vm-wsA"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -813,4 +815,7 @@
         <image name="retweet-action" width="37" height="36"/>
         <image name="retweet-action-pressed" width="37" height="36"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="9Vd-UR-s6Y"/>
+    </inferredMetricsTieBreakers>
 </document>

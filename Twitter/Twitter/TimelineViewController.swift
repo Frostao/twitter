@@ -126,7 +126,11 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         if segue.identifier == "showDetail" {
             let destViewController = segue.destinationViewController as! TweetDetailViewController
             destViewController.tweet = sender as? Tweet
-        } 
+        } else if segue.identifier == "showProfile" {
+            let destViewController = segue.destinationViewController as! ProfileTableViewController
+            destViewController.user = sender as? User
+            
+        }
         
     }
     
