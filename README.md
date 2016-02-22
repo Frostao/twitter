@@ -65,7 +65,7 @@ The following **optional** features are implemented:
 
 - [X] When composing, you should have a countdown in the upper right for the tweet limit.
 - [X] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
-- [ ] Profile Page
+- [X] Profile Page
    - [ ] Implement the paging view for the user description.
    - [ ] As the paging view moves, increase the opacity of the background screen. See the actual Twitter app for this effect
    - [ ] Pulling down the profile page should blur and resize the header image.
@@ -77,7 +77,11 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [X] Profile image view
+- [X] Profile image detail view
+- [X] Profile image detail view uses high resolution image
+- [X] User can save or share the profile image
+- [X] Infinite Scrolling in both home timeline and profile page
+- [X] Pull to refresh in both home timeline and profile page
 
 ## Video Walkthrough 
 
